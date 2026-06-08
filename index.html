@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>El Príncipe Barbershop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=DM+Sans:wght@300;400;500;600&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="index.css"/>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-brand" onclick="goHome()">
+      <div class="nav-logo">
+        <img src="WhatsApp Image 2026-05-08 at 11.17.23 AM.jpeg" alt="Logo"/>
+      </div>
+      <div class="nav-name">El Príncipe<br>Barbershop</div>
+    </div>
+    <div class="nav-links">
+      <span class="nav-link" onclick="goSec('sec-servicios')">Servicios</span>
+      <span class="nav-link" onclick="goSec('sec-como')">Cómo funciona</span>
+      <span class="nav-link" onclick="goSec('sec-horario')">Horario</span>
+    </div>
+    <div class="nav-usuario" id="nav-usuario" style="display:none;">
+      <span class="nav-bienvenido" id="nav-bienvenido">Hola</span>
+      <span class="nav-link" id="nav-admin-link" onclick="irAdmin()" style="display:none;">⚙ Admin</span>
+      <span class="nav-link" id="nav-reg-link"   onclick="verRegistroConRecarga()">Mis citas</span>
+      <button class="nav-logout" onclick="cerrarSesion()">Salir</button>
+    </div>
+    <button class="nav-login" id="nav-login-btn" onclick="goLogin()">Iniciar sesión</button>
+    <button class="nav-cta"   onclick="goAgenda()">Agendar cita</button>
+    <button id="btn-tema" onclick="toggleTema()" title="Cambiar tema" style="background:transparent;border:1px solid #e8e4dc;border-radius:8px;padding:8px 12px;cursor:pointer;font-size:16px;transition:all 0.2s;">🌙</button>
+    <button class="nav-menu-btn" id="nav-menu-btn" onclick="toggleMenu()" title="Menú">☰</button>
+  </nav>
+
+  <!-- MENÚ MÓVIL -->
+  <div class="nav-menu-open" id="nav-menu-open">
+
+    <!-- Saludo usuario (solo cuando está logueado) -->
+    <div class="nav-menu-usuario" id="menu-usuario-info"></div>
+
+    <!-- Navegación principal -->
+    <span class="nav-link" onclick="goSec('sec-servicios');cerrarMenu()"> Servicios</span>
+    <span class="nav-link" onclick="goSec('sec-como');cerrarMenu()"> Cómo funciona</span>
+    <span class="nav-link" onclick="goSec('sec-horario');cerrarMenu()"> Horario</span>
+
+    <div class="nav-menu-divider"></div>
+
+    <!-- Agendar cita destacado -->
+    <span class="nav-link nav-link-agendar" onclick="goAgenda();cerrarMenu()">Agendar cita</span>
+
+    <div class="nav-menu-divider"></div>
+
+    <!-- Acciones de usuario -->
+    <span class="nav-link" onclick="goLogin();cerrarMenu()" id="menu-login-link">Iniciar sesión</span>
+    <span class="nav-link" id="menu-admin-link" onclick="irAdmin();cerrarMenu()" style="display:none;"> Panel Admin</span>
+    <span class="nav-link" id="menu-reg-link" onclick="verRegistroConRecarga();cerrarMenu()" style="display:none;">Mis citas</span>
+
+    <div class="nav-menu-divider"></div>
+
+    <!-- Tema y salir -->
+    <span class="nav-link nav-link-tema" onclick="toggleTema();actualizarBtnTema();"> Cambiar tema</span>
+    <span class="nav-link nav-link-salir" id="menu-salir-link" onclick="cerrarSesion();cerrarMenu()" style="display:none;">Salir</span>
+
+  </div>
+
+  <!-- ══════ HOME ══════ -->
+  <div class="view active" id="view-home">
+    <div class="hero" id="sec-top">
+      <div class="hero-deco"></div>
+      <h1>¡No eres feo, simplemente<br><span>tienes un mal corte!</span></h1>
+      <div class="hero-btns">
+        <button class="btn-gold"    onclick="goAgenda()">Reservar ahora</button>
+        <button class="btn-outline" onclick="goSec('sec-servicios')">Ver servicios</button>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="section" id="sec-servicios">
+      <div class="sec-tag">Lo que ofrecemos</div>
+      <div class="sec-title">Nuestros servicios</div>
+      <p class="sec-sub">Todos incluyen ticket de turno numerado para que llegues a tu hora exacta.</p>
+      <div class="svc-grid" id="menu-servicios"></div>
+    </div>
+    <div class="divider"></div>
+    <div class="section" id="sec-como">
+      <div class="sec-tag">Proceso</div>
+      <div class="sec-title">Cómo funciona</div>
+      <p class="sec-sub">Agendar tu cita toma menos de 2 minutos. Sin llamadas, sin filas.</p>
+      <div class="steps-how">
+        <div class="step-how"><div class="step-how-num">1</div><div class="step-how-title">Elige tu servicio</div><div class="step-how-desc">Selecciona el corte o servicio que deseas con su precio.</div></div>
+        <div class="step-how"><div class="step-how-num">2</div><div class="step-how-title">Escoge fecha y hora</div><div class="step-how-desc">Consulta disponibilidad y reserva el horario que prefieras.</div></div>
+        <div class="step-how"><div class="step-how-num">3</div><div class="step-how-title">Recibe tu ticket</div><div class="step-how-desc">Obtén tu número de turno del 1 al 50 y preséntalo al llegar.</div></div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="section" id="sec-horario">
+      <div class="sec-tag">Horario de atención</div>
+      <div class="sec-title">Estamos aquí para ti</div>
+      <p class="sec-sub">Abiertos de lunes a sábado. Agenda con tiempo para asegurar tu turno.</p>
+      <div class="sched-grid">
+        <div class="day-card"><div class="day-name">Lunes</div><div class="day-hours">9AM–6PM</div></div>
+        <div class="day-card"><div class="day-name">Martes</div><div class="day-hours">9AM–6PM</div></div>
+        <div class="day-card"><div class="day-name">Miércoles</div><div class="day-hours">9AM–6PM</div></div>
+        <div class="day-card"><div class="day-name">Jueves</div><div class="day-hours">9AM–6PM</div></div>
+        <div class="day-card"><div class="day-name">Viernes</div><div class="day-hours">9AM–7PM</div></div>
+        <div class="day-card"><div class="day-name">Sábado</div><div class="day-hours">8AM–5PM</div></div>
+        <div class="day-card"><div class="day-name">Domingo</div><div class="day-hours">8AM–5PM</div></div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="cta-sec">
+      <h2>¿Listo para tu corte?</h2>
+      <p>Agenda tu cita ahora y recibe tu número de turno al instante.</p>
+      <button class="btn-gold" style="font-size:15px;padding:14px 36px;" onclick="goAgenda()">Agendar mi cita</button>
+    </div>
+    <div class="footer">
+      <div class="footer-logo">El Príncipe Barbershop</div>
+      <div class="footer-text">2026 · Santo Domingo, República Dominicana</div>
+    </div>
+  </div>
+
+  <!-- ══════ AGENDA ══════ -->
+  <div class="view" id="view-agenda">
+    <div class="agenda-wrap">
+      <div class="ag-steps">
+        <div class="ag-si active" id="asi-1"><div class="ag-sn active" id="asn-1">1</div><span class="ag-sl">Servicio</span></div>
+        <div class="ag-line"></div>
+        <div class="ag-si" id="asi-2"><div class="ag-sn" id="asn-2">2</div><span class="ag-sl">Fecha</span></div>
+        <div class="ag-line"></div>
+        <div class="ag-si" id="asi-3"><div class="ag-sn" id="asn-3">3</div><span class="ag-sl">Confirmar</span></div>
+      </div>
+
+      <!-- Paso 1: Servicio -->
+      <div class="ag-panel active" id="ap1">
+        <p class="ag-title">Elige tu servicio</p>
+        <div class="ag-sgrid" id="agenda-servicios"></div>
+        <button class="bp" onclick="agGoTo(2)" id="ab1">Continuar →</button>
+        <button class="bb" onclick="goHome()">← Volver al inicio</button>
+      </div>
+
+      <!-- Paso 2: Fecha y hora -->
+      <div class="ag-panel" id="ap2">
+        <p class="ag-title">Selecciona fecha y hora</p>
+        <div class="cal-hdr">
+          <button class="cnav" onclick="chMo(-1)">&#8249;</button>
+          <span class="cm" id="cm-lbl"></span>
+          <button class="cnav" onclick="chMo(1)">&#8250;</button>
+        </div>
+        <div class="dgrid" id="dgrid"></div>
+        <p class="tgrid-label">Horarios disponibles</p>
+        <div class="tgrid" id="tgrid"></div>
+        <button class="bp" onclick="agGoTo(3)" id="ab2">Continuar →</button>
+        <button class="bb" onclick="agGoTo(1)">← Volver</button>
+      </div>
+
+      <!-- Paso 3: Confirmar -->
+      <div class="ag-panel" id="ap3">
+        <p class="ag-title">Confirma tu cita</p>
+        <div class="sum-card">
+          <div class="sum-row"><span class="sum-lbl">Servicio</span><span class="sum-val" id="ss">-</span></div>
+          <div class="sum-row"><span class="sum-lbl">Fecha</span>   <span class="sum-val" id="sd">-</span></div>
+          <div class="sum-row"><span class="sum-lbl">Hora</span>    <span class="sum-val" id="sh">-</span></div>
+          <div class="sum-row sum-total"><span class="sum-lbl">Total</span><span class="sum-val" id="sp2">-</span></div>
+        </div>
+        <div class="fr">
+          <div class="fg"><label class="fl">Nombre *</label> <input class="fi" type="text" id="in" placeholder="Tu nombre"/></div>
+          <div class="fg"><label class="fl">Apellido</label>  <input class="fi" type="text" id="il" placeholder="Tu apellido"/></div>
+        </div>
+        <div class="fg"><label class="fl">Teléfono *</label><input class="fi" type="tel" id="ip" placeholder="809-000-0000"/></div>
+        <button class="bp" onclick="confirmar()">Confirmar cita</button>
+        <button class="bb" onclick="agGoTo(2)">← Volver</button>
+      </div>
+
+      <!-- Paso 4: Ticket -->
+      <div class="ag-panel" id="ap4">
+        <div class="ticket-wrap">
+          <div class="ticket">
+            <div class="tkt-top">
+              <div style="font-size:22px;margin-bottom:4px;">✂</div>
+              <div style="font-family:'Playfair Display',serif;font-size:13px;color:#ffffff;letter-spacing:1.5px;">EL PRÍNCIPE BARBERSHOP</div>
+              <div style="font-size:9px;color:rgba(255,255,255,0.5);letter-spacing:2px;margin-top:3px;">SANTO DOMINGO</div>
+            </div>
+            <div class="tkt-scissors"><div class="tkt-sl"></div><div class="tkt-si">✂</div><div class="tkt-sl"></div></div>
+            <div class="tkt-body">
+              <div class="tkt-nb">
+                <div class="tkt-lbl">Tu número de turno</div>
+                <div class="tkt-num" id="tkt-num">01</div>
+                <div style="font-size:9px;color:#999;margin-top:3px;letter-spacing:1px;">TURNO DEL DÍA</div>
+              </div>
+              <hr class="tkt-div"/>
+              <div class="tkt-row"><span>Servicio</span><span id="t-svc">-</span></div>
+              <div class="tkt-row"><span>Fecha</span>   <span id="t-date">-</span></div>
+              <div class="tkt-row"><span>Hora</span>    <span id="t-time">-</span></div>
+              <div class="tkt-row"><span>Cliente</span> <span id="t-name">-</span></div>
+              <div class="tkt-row"><span>Total</span>   <span id="t-price">-</span></div>
+              <hr class="tkt-div"/>
+              <div class="tkt-foot">
+                <div class="tkt-bars" id="tkt-bars"></div>
+                <p style="margin-top:5px;">GRACIAS POR TU VISITA</p>
+                <p>Presenta este ticket al llegar</p>
+              </div>
+            </div>
+            <div class="tkt-bot"></div>
+          </div>
+        </div>
+        <div class="max300">
+          <button class="bp" onclick="enviarWhatsApp()" style="background:linear-gradient(135deg,#25D366,#128C7E);margin-bottom:9px;display:flex;align-items:center;justify-content:center;gap:8px;">
+            📱 Confirmar por WhatsApp
+          </button>
+          <button class="bp" onclick="resetAgenda()">Agendar otra cita</button>
+          <button class="bb" onclick="goHome()">← Volver al inicio</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ LOGIN ══════ -->
+  <div class="view" id="view-login">
+    <div class="login-wrap">
+      <div class="login-box">
+        <div class="login-logo">
+          <img src="WhatsApp Image 2026-05-08 at 11.17.23 AM.jpeg" alt="Logo" style="width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid #e8e4dc;"/>
+          <div class="login-titulo">El Príncipe Barbershop</div>
+        </div>
+        <div class="login-tabs">
+          <button class="login-tab active" id="tab-login"    onclick="switchTab('login')">Iniciar sesión</button>
+          <button class="login-tab"        id="tab-registro" onclick="switchTab('registro')">Registrarse</button>
+        </div>
+        <div class="login-form active" id="form-login">
+          <div class="fg"><label class="fl">Correo electrónico</label><input class="fi" type="email"    id="login-email" placeholder="correo@ejemplo.com"/></div>
+          <div class="fg"><label class="fl">Contraseña</label>         <input class="fi" type="password" id="login-pass"  placeholder="••••••••"/></div>
+          <div class="login-error" id="login-error"></div>
+          <button class="bp" onclick="iniciarSesion()">Entrar</button>
+          <button class="bb" onclick="goHome()">← Volver al inicio</button>
+        </div>
+        <div class="login-form" id="form-registro">
+          <div class="fr">
+            <div class="fg"><label class="fl">Nombre *</label>  <input class="fi" type="text" id="reg-nombre"   placeholder="Tu nombre"/></div>
+            <div class="fg"><label class="fl">Apellido</label>   <input class="fi" type="text" id="reg-apellido" placeholder="Tu apellido"/></div>
+          </div>
+          <div class="fg"><label class="fl">Teléfono *</label>          <input class="fi" type="tel"      id="reg-telefono" placeholder="809-000-0000"/></div>
+          <div class="fg"><label class="fl">Correo electrónico *</label> <input class="fi" type="email"    id="reg-email"    placeholder="correo@ejemplo.com"/></div>
+          <div class="fg"><label class="fl">Contraseña * (mín. 6)</label><input class="fi" type="password" id="reg-pass"     placeholder="••••••••"/></div>
+          <div class="login-error" id="reg-error"></div>
+          <button class="bp" onclick="registrarse()">Crear cuenta</button>
+          <button class="bb" onclick="goHome()">← Volver al inicio</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ REGISTRO ANUAL (USUARIO) ══════ -->
+  <div class="view" id="view-registro">
+    <div class="agenda-wrap">
+      <div class="reg-header">
+        <div>
+          <p class="sec-tag">Historial anual</p>
+          <h2 style="font-family:'Playfair Display',serif;font-size:22px;color:#111111;">
+            Registro de agenda <span id="reg-anio" style="color:#c8922a;"></span>
+          </h2>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="bb" style="width:auto;padding:8px 16px;" onclick="verRegistroConRecarga()">🔄 Actualizar</button>
+          <button class="bb" style="width:auto;padding:8px 16px;" onclick="goHome()">← Inicio</button>
+        </div>
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table class="reg-tabla" id="reg-tabla">
+          <thead>
+            <tr>
+              <th>#</th><th>Turno</th><th>Nombre</th><th>Apellido</th>
+              <th>Servicio</th><th>Fecha</th><th>Hora</th><th>Precio</th><th>Estado</th>
+            </tr>
+          </thead>
+          <tbody id="reg-tbody"></tbody>
+          <tfoot>
+            <tr>
+              <td colspan="7" class="reg-total-lbl">Total del año</td>
+              <td class="reg-total-val" id="reg-total">RD$0</td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div id="reg-vacio" class="no-citas" style="display:none;">No tienes citas registradas este año.</div>
+      <div style="margin-top:1.5rem;">
+        <button class="bp" onclick="goAgenda()">Agendar nueva cita</button>
+        <button class="bb" onclick="goHome()">← Volver al inicio</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ PANEL ADMIN ══════ -->
+  <div class="view" id="view-admin">
+    <div class="agenda-wrap admin-wrap">
+
+      <!-- Header Admin -->
+      <div class="admin-header">
+        <div>
+          <p class="sec-tag">Panel de administrador</p>
+          <h2 class="admin-titulo">Dashboard</h2>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="bb" style="width:auto;padding:8px 16px;" onclick="cargarCitasAdmin();cargarStatsAdmin();">Actualizar</button>
+          <button class="bb" style="width:auto;padding:8px 16px;" onclick="goHome()">← Inicio</button>
+        </div>
+      </div>
+
+      <!-- ── ESTADÍSTICAS ── -->
+      <div class="admin-stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">📅</div>
+          <div class="stat-num" id="admin-total-hoy">0</div>
+          <div class="stat-lbl">Citas hoy</div>
+        </div>
+        <div class="stat-card stat-gold">
+          <div class="stat-icon">⏳</div>
+          <div class="stat-num" id="admin-pendientes">0</div>
+          <div class="stat-lbl">Pendientes hoy</div>
+        </div>
+        <div class="stat-card stat-green">
+          <div class="stat-icon">✅</div>
+          <div class="stat-num" id="admin-completadas">0</div>
+          <div class="stat-lbl">Completadas hoy</div>
+        </div>
+        <div class="stat-card stat-red">
+          <div class="stat-icon">✗</div>
+          <div class="stat-num" id="admin-canceladas">0</div>
+          <div class="stat-lbl">Canceladas hoy</div>
+        </div>
+        <div class="stat-card stat-gold">
+          <div class="stat-icon">💰</div>
+          <div class="stat-num stat-ingresos" id="admin-ingresos">RD$0</div>
+          <div class="stat-lbl">Ingresos hoy</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📊</div>
+          <div class="stat-num" id="admin-semana">0</div>
+          <div class="stat-lbl">Esta semana</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🗓</div>
+          <div class="stat-num" id="admin-mes">0</div>
+          <div class="stat-lbl">Este mes</div>
+        </div>
+      </div>
+
+      <!-- ── DÍAS NO DISPONIBLES ── -->
+      <div class="sum-card admin-dias-wrap">
+        <div class="admin-section-titulo">🚫 Días no disponibles</div>
+        <div class="admin-dias-grid" id="admin-dias-grid">
+          <span style="font-size:12px;color:#aaa;">No hay días bloqueados</span>
+        </div>
+        <div class="admin-bloquear-form">
+          <input type="date" id="admin-fecha-bloquear"/>
+          <button class="btn-bloquear" onclick="bloquearDia()">🚫 Bloquear día</button>
+        </div>
+      </div>
+
+      <!-- ── FILTROS ── -->
+      <div class="sum-card admin-filtros-wrap">
+        <div class="admin-section-titulo">🔍 Filtrar citas</div>
+        <div class="admin-filtros">
+          <div class="fg" style="margin:0;flex:1;">
+            <label class="fl">Fecha</label>
+            <input class="fi" type="date" id="admin-filtro-fecha" onchange="filtrarAdmin()"/>
+          </div>
+          <div class="fg" style="margin:0;flex:1;">
+            <label class="fl">Estado</label>
+            <select class="fi" id="admin-filtro-estado" onchange="filtrarAdmin()">
+              <option value="todas">Todas</option>
+              <option value="pendiente">Pendientes</option>
+              <option value="completada">Completadas</option>
+              <option value="cancelada">Canceladas</option>
+            </select>
+          </div>
+          <button class="bp" style="width:auto;padding:10px 20px;margin:0;align-self:flex-end;" onclick="filtrarAdmin()">Filtrar</button>
+          <button class="bb" style="width:auto;padding:10px 16px;margin:0;align-self:flex-end;" onclick="limpiarFiltros()">Limpiar</button>
+        </div>
+      </div>
+
+      <!-- ── TABLA CITAS ── -->
+      <div class="admin-tabla-titulo">📋 Lista de citas</div>
+      <div style="overflow-x:auto;">
+        <table class="reg-tabla admin-tabla-citas" id="admin-tabla">
+          <thead>
+            <tr>
+              <th>Turno</th>
+              <th>Cliente</th>
+              <th>Servicio</th>
+              <th>Hora</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="admin-tbody"></tbody>
+        </table>
+      </div>
+      <div id="admin-vacio" class="no-citas" style="display:none;">No hay citas para este filtro.</div>
+      <p class="admin-refresh-hint">Se actualiza automáticamente cada 30 segundos</p>
+    </div>
+  </div>
+
+  <!-- BOTÓN FLOTANTE WHATSAPP -->
+  <a href="https://wa.me/18298108866" target="_blank" id="wa-float"
+     style="position:fixed;bottom:24px;right:24px;z-index:998;width:60px;height:60px;border-radius:50%;
+            background:linear-gradient(135deg,#25D366,#128C7E);display:flex;align-items:center;
+            justify-content:center;box-shadow:0 4px 16px rgba(37,211,102,0.4);text-decoration:none;
+            transition:all 0.3s;animation:waPulse 2s ease-in-out infinite;">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width:34px;height:34px;fill:#ffffff;display:block;">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </a>
+
+  <style>
+  @keyframes waPulse {
+    0%,100% { box-shadow:0 4px 16px rgba(37,211,102,0.4); transform:scale(1); }
+    50%      { box-shadow:0 4px 28px rgba(37,211,102,0.7); transform:scale(1.06); }
+  }
+  #wa-float:hover { transform:scale(1.1) !important; }
+  </style>
+
+  <script src="index.js"></script>
+  <script>
+    // Limpiar filtros admin
+    function limpiarFiltros() {
+      var hoy = new Date().toISOString().split('T')[0];
+      var fi  = document.getElementById('admin-filtro-fecha');
+      var fe  = document.getElementById('admin-filtro-estado');
+      if (fi) fi.value = hoy;
+      if (fe) fe.value = 'todas';
+      adminFiltroFecha  = hoy;
+      adminFiltroEstado = 'todas';
+      cargarCitasAdmin();
+    }
+  </script>
+</body>
+</html>
